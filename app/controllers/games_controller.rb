@@ -78,7 +78,7 @@ class GamesController < ApplicationController
 
     def set_games_and_genre_with_criteria(requested_genre, requested_order)
       # for nil (All)
-      if requested_genre.nil? || requested_genre.all?('All')
+      if requested_genre.nil? || requested_genre.eql?('All')
         games_by_genre = Game.all
         @genre_name = 'All'
       else 
