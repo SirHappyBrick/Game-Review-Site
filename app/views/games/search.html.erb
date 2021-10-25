@@ -1,0 +1,8 @@
+<%# For some reason js.erb doesn't work so I did it like that%>
+
+<script>
+  var genres = document.getElementById('genres');
+  var games = document.getElementById('games')
+
+  genres.innerHTML = "<%= j render 'games/genres' %>";
+</script>

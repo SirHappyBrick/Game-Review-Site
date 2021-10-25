@@ -4,8 +4,11 @@ class GamesController < ApplicationController
 
   # GET /games or /games.json
   def index
-    @games = Game.all
-    @genres = Genre.all
+    set_games_and_genre_with_criteria(params[:genre], '')
+  end
+
+  def search
+    set_games_and_genre_with_criteria(params[:genre], params[:order])
   end
 
   # GET /games/1 or /games/1.json
@@ -72,4 +75,44 @@ class GamesController < ApplicationController
     def game_params
       params.require(:game).permit(:title, :review, :rating, :thumbnail, genre_ids: [])
     end
+
+    def set_games_and_genre_with_criteria(requested_genre, requested_order)
+      # for nil (All)
+      if requested_genre.nil? || requested_genre.all?('All')
+        games_by_genre = Game.all
+        @genre_name = 'All'
+      else 
+        games_by_genre = filter_games_by_genre(requested_genre)
+        @genre_name = requested_genre
+      end
+      order_games(requested_order, games_by_genre)
+    end 
+
+    def filter_games_by_genre(genre_name)
+      @genre = Genre.find_by(name: genre_name)
+      games = if @genre.nil?
+                Game.none 
+              else
+                @genre.games 
+              end         
+    end
+
+    def order_games(_order, _games)
+      @games = case _order 
+      when 'A-Z'
+        _games.order('title ASC')
+      when 'Z-A'
+        _games.order('title DESC')
+      when 'By Highest Rating'
+        _games.order('rating DESC')
+      when 'By Lowest Rating'
+        _games.order('rating ASC')
+      when 'By Newest'
+        _games.order('created_at DESC')
+      when 'By Oldest'
+        _games.order('created_at ASC')
+      else 
+        _games.order('title ASC')
+      end
+    end 
 end
