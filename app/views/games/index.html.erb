@@ -1,31 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Games</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Review</th>
-      <th>Rating</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @games.each do |game| %>
-      <tr>
-        <td><%= game.title %></td>
-        <td><%= game.review %></td>
-        <td><%= game.rating %></td>
-        <td><%= link_to 'Show', game %></td>
-        <td><%= link_to 'Edit', edit_game_path(game) %></td>
-        <td><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Game', new_game_path %>
+<% @genres.each do |genre| %>
+  <h1> <%= genre.name %> </h1>
+<% genre.games.each do |game|%>
+  <p><%= link_to image_tag(game.thumbnail, width: 250, height: 300), game %></p>
+<% end %>
+<% end %>

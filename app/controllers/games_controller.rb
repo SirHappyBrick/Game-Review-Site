@@ -1,9 +1,11 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy ]
+  before_action :set_genres, except: [:show, :destroy]
 
   # GET /games or /games.json
   def index
     @games = Game.all
+    @genres = Genre.all
   end
 
   # GET /games/1 or /games/1.json
@@ -62,8 +64,12 @@ class GamesController < ApplicationController
       @game = Game.find(params[:id])
     end
 
+    def set_genres
+      @genres = Genre.all
+    end 
+
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:title, :review, :rating)
+      params.require(:game).permit(:title, :review, :rating, :thumbnail, genre_ids: [])
     end
 end

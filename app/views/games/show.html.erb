@@ -15,5 +15,11 @@
   <%= @game.rating %>
 </p>
 
+<h3>This game belongs to <%= pluralize(@game.genres.count, 'Genre') %> :</h3>
+
+<% @game.genres.each do |genre| %>
+  <p> <%= link_to genre.name, genre %> </p>
+<% end %>
+
 <%= link_to 'Edit', edit_game_path(@game) %> |
 <%= link_to 'Back', games_path %>

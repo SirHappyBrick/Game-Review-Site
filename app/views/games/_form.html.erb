@@ -26,6 +26,16 @@
     <%= form.text_field :rating %>
   </div>
 
+  <div class="field">
+    <%= form.label :genres %>
+    <%= form.collection_select :genre_ids, @genres, :id, :name, {}, {multiple: true} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :thumbnail %>
+    <%= form.file_field :thumbnail %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
